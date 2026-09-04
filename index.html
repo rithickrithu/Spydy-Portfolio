@@ -203,6 +203,7 @@
       const personImage = document.getElementById('personImage');
 
       function handleMouseMove(e) {
+        if (window.innerWidth < 768) return; // Disable mask on mobile
         if (personImage) {
           const rect = personImage.getBoundingClientRect();
           const x = e.clientX - rect.left;
@@ -283,15 +284,15 @@
   <!-- HERO SECTION -->
   <section id="home" class="hero-section" style="cursor: crosshair;">
     <!-- Parallax Webs with CSS animation -->
-    <div class="absolute top-0 left-0 w-[280px] h-[280px] -translate-x-[15%] -translate-y-[15%] z-[1] pointer-events-none">
+    <div class="absolute top-0 left-0 w-[280px] h-[280px] -translate-x-[15%] -translate-y-[15%] z-[1] pointer-events-none hidden md:block">
       <img src="./assets/web1.png" class="web-animated object-contain opacity-50 mix-blend-multiply w-full h-full" alt="Web">
     </div>
-    <div class="absolute bottom-0 right-0 w-[320px] h-[320px] translate-x-[15%] translate-y-[15%] z-[1] pointer-events-none">
+    <div class="absolute bottom-0 right-0 w-[320px] h-[320px] translate-x-[15%] translate-y-[15%] z-[1] pointer-events-none hidden md:block">
       <img src="./assets/web1.png" class="web-animated object-contain opacity-50 mix-blend-multiply w-full h-full" alt="Web">
     </div>
 
     <!-- TEXT CONTENT ON LEFT -->
-    <div class="hero-content relative z-20 px-6 md:pl-24 w-full lg:w-1/2 flex flex-col gap-6 pt-32 md:pt-20 pointer-events-none">
+    <div class="hero-content relative z-20 px-6 md:pl-24 w-full lg:w-1/2 flex flex-col gap-6 pt-24 md:pt-20 pointer-events-none">
       <h2 class="subtitle hero-text text-xs md:text-[0.85rem] font-extrabold tracking-[0.15em] text-[#B91C1C] uppercase">YOUR FRIENDLY NEIGHBORHOOD ENGINEER</h2>
       <div class="flex flex-col overflow-hidden">
         <h1 class="title-name hero-title text-5xl md:text-[5rem] font-black italic leading-[0.9] text-[#0F172A] uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">K V</h1>
@@ -309,8 +310,8 @@
       </p>
 
       <div class="hero-btns flex gap-4 pointer-events-auto z-50">
-        <a href="#experience" class="bg-[#A31621] hover:bg-[#8A121A] text-white font-extrabold text-sm px-6 py-4 rounded-lg transition-all hover:scale-105" style="display:inline-block; position: relative;">EXPERIENCE</a>
-        <a href="./assets/resume.pdf" download="resume.pdf" target="_blank" rel="noopener noreferrer" class="bg-[#0F172A] hover:bg-black text-white font-extrabold text-sm px-6 py-4 rounded-lg transition-all hover:scale-105 flex items-center gap-2" style="display:inline-flex; position: relative;">
+        <a href="#experience" class="bg-[#A31621] hover:bg-[#8A121A] text-white font-extrabold text-xs md:text-sm px-4 md:px-6 py-4 rounded-lg transition-all hover:scale-105" style="display:inline-block; position: relative;">EXPERIENCE</a>
+        <a href="./assets/resume.pdf" download="resume.pdf" target="_blank" rel="noopener noreferrer" class="bg-[#0F172A] hover:bg-black text-white font-extrabold text-xs md:text-sm px-4 md:px-6 py-4 rounded-lg transition-all hover:scale-105 flex items-center justify-center gap-2 whitespace-nowrap" style="display:inline-flex; position: relative;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           DOWNLOAD CV
         </a>
@@ -587,10 +588,10 @@
       <div class="w-16 h-1 bg-red-700 mt-4 rounded-full"></div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl relative z-10 pl-0 md:pl-24">
+    <div class="grid grid-cols-1 gap-8 w-full max-w-4xl relative z-10 pl-0 md:pl-24">
       
       <!-- Experience 1 -->
-      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300 md:col-span-2 xl:col-span-1">
+      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300">
         <div class="flex justify-between items-start mb-4">
           <h3 class="font-black text-xl tracking-tight group-hover:text-[#A31621] transition-colors uppercase"><span class="bg-[#4F46E5] text-white px-2 py-0.5 rounded mr-1 group-hover:bg-[#A31621] transition-colors">GEI</span>DEA</h3>
         </div>
@@ -613,7 +614,7 @@
       </div>
 
       <!-- Experience 2 -->
-      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300 md:col-span-2 xl:col-span-1">
+      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300">
         <div class="flex justify-between items-start mb-4">
           <h3 class="font-black text-xl tracking-tight group-hover:text-[#A31621] transition-colors uppercase"><span class="bg-[#E11D48] text-white px-2 py-0.5 rounded mr-1 group-hover:bg-[#A31621] transition-colors">TECH</span> MAHINDRA</h3>
         </div>
@@ -639,7 +640,7 @@
       </div>
 
       <!-- Experience 3 -->
-      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300 md:col-span-2 xl:col-span-2">
+      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300">
         <div class="flex justify-between items-start mb-4">
           <h3 class="font-black text-xl tracking-tight group-hover:text-[#A31621] transition-colors uppercase"><span class="bg-[#059669] text-white px-2 py-0.5 rounded mr-1 group-hover:bg-[#A31621] transition-colors">ATD</span>XT LLC</h3>
         </div>
