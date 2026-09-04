@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K V Rithick | Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Mobile Menu Transitions */
+    #mobile-menu {
+      transition: opacity 0.5s ease-in-out, pointer-events 0.5s ease-in-out;
+    }
+    #mobile-menu.open {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    .hamburger-line {
+      transition: all 0.3s ease-in-out;
+    }
+    .hamburger-open .line-1 { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger-open .line-2 { opacity: 0; }
+    .hamburger-open .line-3 { transform: rotate(-45deg) translate(6px, -6px); }
+
+    body { font-family: 'Montserrat', sans-serif; background-color: #F8F9FA; color: #111827; overflow-x: hidden; margin: 0; }
+    
+    .nav-link { font-size: 0.85rem; font-weight: 700; color: #6B7280; letter-spacing: 0.1em; transition: color 0.3s; }
+    .nav-link:hover { color: #111827; }
+    .subtitle { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.15em; color: #B91C1C; text-transform: uppercase; }
+    
+    .title-name {
+      font-size: 5rem;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 0.9;
+      color: #0F172A;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      text-shadow: 4px 4px 0px #B91C1C;
+    }
+    @media (max-width: 768px) { .title-name { font-size: 2.5rem; } }
+
+    /* Swinging Pendulum */
+    @keyframes float-pill {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    .pill-animate {
+      animation: float-pill 3s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes swing {
+      0% { transform: rotate(5deg); }
+      50% { transform: rotate(-5deg); }
+      100% { transform: rotate(5deg); }
+    }
+    .pendulum {
+      animation: swing 6s ease-in-out infinite;
+      transform-origin: top center;
+    }
+
+    .btn-red { background-color: #A31621; color: white; font-weight: 800; font-size: 0.85rem; padding: 1rem 1.5rem; border-radius: 0.5rem; transition: transform 0.2s, background-color 0.2s; }
+    .btn-red:hover { transform: scale(1.05); background-color: #8A121A; }
+    .btn-dark { background-color: #0F172A; color: white; font-weight: 800; font-size: 0.85rem; padding: 1rem 1.5rem; border-radius: 0.5rem; transition: transform 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+    .btn-dark:hover { transform: scale(1.05); }
+
+    /* Hero Section Fixed Alignment */
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 20;
+      pointer-events: none;
+    }
+    .hero-content > * { pointer-events: auto; }
+    
+    .hero-image-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 10;
+    }
+    /* Centered Spiderman (Base) */
+    .hero-spiderman {
+      position: absolute;
+      bottom: -5vh;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 105vh;
+      object-fit: contain;
+      z-index: 12;
+      pointer-events: auto;
+      cursor: crosshair;
+      mix-blend-mode: multiply;
+    }
+    /* Dynamic Circular Blended Person Image (Hover Reveal) */
+    .hero-person {
+      position: absolute;
+      bottom: -5vh;
+      left: 50%;
+      /* Transform is set inline to -75% to center the right half of the 200% width image! */
+      height: 105vh;
+      object-fit: contain;
+      z-index: 13;
+      pointer-events: none;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, black 100%, transparent 100%);
+      mask-image: radial-gradient(circle 0px at 50% 50%, black 100%, transparent 100%);
+    }
+
+    /* Web decorations - Exact match from original site */
+    .web-tl { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 400px; 
+      height: 400px; 
+      object-fit: contain; 
+      opacity: 0.5; 
+      mix-blend-mode: multiply; 
+      transform: translate(-25%, -25%); 
+      z-index: 1; 
+      pointer-events: none; 
+    }
+    .web-br { 
+      position: absolute; 
+      bottom: 0; 
+      right: 0; 
+      width: 500px; 
+      height: 500px; 
+      object-fit: contain; 
+      opacity: 0.5; 
+      mix-blend-mode: multiply; 
+      transform: translate(25%, 25%); 
+      z-index: 1; 
+      pointer-events: none; 
+    }
+    
+    .web-bg-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; opacity: 0.1; z-index: 0; pointer-events: none; }
+
+    /* Marquee */
+    .marquee-container { position: relative; height: 140px; overflow: hidden; background: #F8F9FA; z-index: 20; }
+    .marquee-strip { position: absolute; top: 50%; left: -10%; width: 120%; display: flex; align-items: center; overflow: hidden; white-space: nowrap; padding: 1rem 0; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+    .marquee-content { display: flex; animation: scroll 45s linear infinite; }
+    .marquee-content.reverse { animation: scroll-reverse 45s linear infinite; }
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes scroll-reverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+    .marquee-item { display: flex; align-items: center; gap: 2rem; padding: 0 2rem; font-weight: 800; font-size: 1.5rem; font-style: italic; letter-spacing: 0.1em; }
+    .strip-dark { background-color: #111827; color: #B91C1C; transform: translateY(-50%) rotate(3deg); z-index: 1; }
+    .strip-red { background-color: #B91C1C; color: white; transform: translateY(-50%) rotate(-3deg); z-index: 2; }
+
+    .skill-card { transition: all 0.3s ease; }
+    .skill-card:hover { background-color: #A31621; color: white; transform: translateY(-2px); box-shadow: 0 10px 25px rgba(163, 22, 33, 0.4); }
+    .skill-card:hover .skill-dot { background-color: white; }
+    .skill-card:hover .skill-cat { color: rgba(255,255,255,0.8); }
+    .skill-card:hover .skill-badge { background-color: #0F172A; color: white; border-color: #0F172A; }
+
+    .project-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    .project-card:hover .project-title { color: #A31621; }
+
+    .input-field { transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+    .input-field:focus { outline: none; border-color: #A31621; box-shadow: 0 0 0 3px rgba(163, 22, 33, 0.1); }
+    
+    @keyframes spin-only {
+      from { rotate: 0deg; }
+      to { rotate: 360deg; }
+    }
+    @keyframes pulse-only {
+      0% { scale: 1; }
+      50% { scale: 1.3; }
+      100% { scale: 1; }
+    }
+    .web-animated {
+      animation: spin-only 25s linear infinite, pulse-only 4s ease-in-out infinite;
+      transform-origin: center center;
+    }
+    .web-spin-only {
+      animation: spin-only 25s linear infinite;
+      transform-origin: center center;
+    }
+  </style>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const heroSection = document.getElementById('home');
+      const personImage = document.getElementById('personImage');
+
+      function handleMouseMove(e) {
+        if (personImage) {
+          const rect = personImage.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const maskString = `radial-gradient(circle 200px at ${x}px ${y}px, black 40%, transparent 100%)`;
+          personImage.style.webkitMaskImage = maskString;
+          personImage.style.maskImage = maskString;
+        }
+      }
+
+      heroSection.addEventListener('mousemove', handleMouseMove);
+      heroSection.addEventListener('mouseleave', () => {
+        const reset = `radial-gradient(circle 0px at 50% 50%, black 100%, transparent 100%)`;
+        personImage.style.webkitMaskImage = reset;
+        personImage.style.maskImage = reset;
+      });
+    });
+
+    // Mobile Menu Logic
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const btn = document.getElementById('hamburger-btn');
+      menu.classList.toggle('open');
+      btn.classList.toggle('hamburger-open');
+      if (menu.classList.contains('open')) {
+        btn.classList.add('text-white');
+        btn.classList.remove('text-gray-900');
+      } else if (!window.scrollY > 50) {
+        btn.classList.add('text-gray-900');
+        btn.classList.remove('text-white');
+      }
+    }
+
+    // Hero Entrance
+  </script>
+
+  <!-- NAV -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full px-6 md:px-8 py-6 flex justify-between items-center z-50 transition-all duration-300 bg-transparent">
+    <div id="nav-logo" class="text-2xl font-black italic tracking-tighter cursor-pointer ml-2 md:ml-4 transition-colors text-gray-900">
+      <span class="text-red-700">R</span>ITHICK.
+    </div>
+    
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex gap-8 mr-4">
+      <a href="#about" class="nav-link uppercase">About</a>
+      <a href="#skills" class="nav-link uppercase">Skills</a>
+      <a href="#experience" class="nav-link uppercase">Experience</a>
+      <a href="#education" class="nav-link uppercase">Education</a>
+      <a href="#certifications" class="nav-link uppercase">Certifications</a>
+      <a href="#apps" class="nav-link uppercase">Apps</a>
+      <a href="#contact" class="nav-link uppercase">Contact</a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button 
+      id="hamburger-btn"
+      class="md:hidden flex flex-col justify-center items-center w-8 h-8 z-[60] relative text-gray-900"
+      onclick="toggleMobileMenu()"
+    >
+      <span class="hamburger-line line-1 w-6 h-0.5 bg-current mb-1.5"></span>
+      <span class="hamburger-line line-2 w-6 h-0.5 bg-current mb-1.5"></span>
+      <span class="hamburger-line line-3 w-6 h-0.5 bg-current"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-[55] flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none md:hidden">
+    <a href="#about" onclick="toggleMobileMenu()" class="text-2xl font-black italic tracking-widest uppercase text-white hover:text-red-500 transition-colors">About</a>
+    <a href="#skills" onclick="toggleMobileMenu()" class="text-2xl font-black italic tracking-widest uppercase text-white hover:text-red-500 transition-colors">Skills</a>
+    <a href="#experience" onclick="toggleMobileMenu()" class="text-2xl font-black italic tracking-widest uppercase text-white hover:text-red-500 transition-colors">Experience</a>
+    <a href="#education" onclick="toggleMobileMenu()" class="text-2xl font-black italic tracking-widest uppercase text-white hover:text-red-500 transition-colors">Education</a>
+    <a href="#certifications" onclick="toggleMobileMenu()" class="text-2xl font-black italic tracking-widest uppercase text-white hover:text-red-500 transition-colors">Certifications</a>
+    <a href="#apps" onclick="toggleMobileMenu()" class="text-2xl font-black italic tracking-widest uppercase text-white hover:text-red-500 transition-colors">Apps</a>
+    <a href="#contact" onclick="toggleMobileMenu()" class="text-2xl font-black italic tracking-widest uppercase text-white hover:text-red-500 transition-colors">Contact</a>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero-section" style="cursor: crosshair;">
+    <!-- Parallax Webs with CSS animation -->
+    <div class="absolute top-0 left-0 w-[280px] h-[280px] -translate-x-[15%] -translate-y-[15%] z-[1] pointer-events-none">
+      <img src="./assets/web1.png" class="web-animated object-contain opacity-50 mix-blend-multiply w-full h-full" alt="Web">
+    </div>
+    <div class="absolute bottom-0 right-0 w-[320px] h-[320px] translate-x-[15%] translate-y-[15%] z-[1] pointer-events-none">
+      <img src="./assets/web1.png" class="web-animated object-contain opacity-50 mix-blend-multiply w-full h-full" alt="Web">
+    </div>
+
+    <!-- TEXT CONTENT ON LEFT -->
+    <div class="hero-content relative z-20 px-6 md:pl-24 w-full lg:w-1/2 flex flex-col gap-6 pt-32 md:pt-20 pointer-events-none">
+      <h2 class="subtitle hero-text text-xs md:text-[0.85rem] font-extrabold tracking-[0.15em] text-[#B91C1C] uppercase">YOUR FRIENDLY NEIGHBORHOOD ENGINEER</h2>
+      <div class="flex flex-col overflow-hidden">
+        <h1 class="title-name hero-title text-5xl md:text-[5rem] font-black italic leading-[0.9] text-[#0F172A] uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">K V</h1>
+        <h1 class="title-name hero-title text-5xl md:text-[5rem] font-black italic leading-[0.9] text-[#0F172A] uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">RITHICK.</h1>
+      </div>
+      
+      <div class="flex items-center gap-4 mt-2 z-10 relative">
+        <h2 class="text-xl md:text-2xl font-extrabold text-gray-700 tracking-wider">
+          Android Developer | Jetpack Compose Expert
+        </h2>
+      </div>
+
+      <p class="text-gray-500 font-medium text-sm md:text-lg leading-relaxed max-w-xl mb-6 z-10 relative">
+        Designing and delivering scalable, performant Android applications. Passionate about Kotlin, Jetpack Compose, and building dynamic JSON-driven mobile architectures.
+      </p>
+
+      <div class="hero-btns flex gap-4 pointer-events-auto z-50">
+        <a href="#experience" class="bg-[#A31621] hover:bg-[#8A121A] text-white font-extrabold text-sm px-6 py-4 rounded-lg transition-all hover:scale-105" style="display:inline-block; position: relative;">EXPERIENCE</a>
+        <a href="./assets/resume.pdf" download="resume.pdf" target="_blank" rel="noopener noreferrer" class="bg-[#0F172A] hover:bg-black text-white font-extrabold text-sm px-6 py-4 rounded-lg transition-all hover:scale-105 flex items-center gap-2" style="display:inline-flex; position: relative;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          DOWNLOAD CV
+        </a>
+      </div>
+    </div>
+
+    <!-- CENTERED IMAGES -->
+    <div class="hero-img absolute top-0 left-0 w-full h-screen overflow-hidden z-10 pointer-events-none mix-blend-multiply opacity-25 md:opacity-100">
+      <!-- Base Spider-Man Mask Image -->
+      <img src="./assets/image-1.png" class="hero-spiderman" id="spiderImage" style="pointer-events: none;">
+      
+      <!-- Person Image overlay WRAPPER (Exactly matches image-1 size) -->
+      <div 
+        id="personImage" 
+        class="absolute bottom-[-5vh] left-1/2 transform -translate-x-1/2 z-[13] pointer-events-none overflow-hidden" 
+        style="height: 105vh; width: 188.13vh; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 0px at 50% 50%, black 100%, transparent 100%); -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, black 100%, transparent 100%);"
+      >
+        <!-- The user provided a perfectly cropped image! We use object-position to pan the image DOWN without creating gaps that cut off the hair! -->
+        <img src="./assets/Media%20(2).jpg" style="position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center 0%; left: 1%; top: 0;">
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE SECTION MOVED UP EXACTLY LIKE SCREENSHOT -->
+  <section class="marquee-container">
+    <div class="marquee-strip strip-dark">
+      <div class="marquee-content reverse">
+        <div class="marquee-item">ANDROID ARCHITECTURE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">JETPACK COMPOSE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">KOTLIN COROUTINES <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">DAGGER HILT <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">CLEAN ARCHITECTURE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">ANDROID ARCHITECTURE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">JETPACK COMPOSE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">KOTLIN COROUTINES <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">DAGGER HILT <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">CLEAN ARCHITECTURE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">ANDROID ARCHITECTURE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">JETPACK COMPOSE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">KOTLIN COROUTINES <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">DAGGER HILT <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">CLEAN ARCHITECTURE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">ANDROID ARCHITECTURE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">JETPACK COMPOSE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">KOTLIN COROUTINES <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">DAGGER HILT <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+        <div class="marquee-item">CLEAN ARCHITECTURE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-red-700 opacity-50"></div>
+      </div>
+    </div>
+    
+    <div class="marquee-strip strip-red">
+      <div class="marquee-content">
+        <div class="marquee-item">MOBILE DEVELOPMENT <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">MVVM PATTERN <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">ROOM DATABASE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">ANDROID SDK <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">FIREBASE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">MOBILE DEVELOPMENT <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">MVVM PATTERN <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">ROOM DATABASE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">ANDROID SDK <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">FIREBASE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">MOBILE DEVELOPMENT <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">MVVM PATTERN <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">ROOM DATABASE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">ANDROID SDK <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">FIREBASE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">MOBILE DEVELOPMENT <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">MVVM PATTERN <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">ROOM DATABASE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">ANDROID SDK <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+        <div class="marquee-item">FIREBASE <img src="./assets/spydy.png" class="w-8 h-8 rounded border border-white"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="relative min-h-[100vh] w-full px-10 md:px-24 py-20 flex flex-col md:flex-row justify-between items-start bg-white overflow-hidden">
+    
+    <!-- Background web left -->
+    <div class="absolute top-0 left-[0%] flex flex-col items-center z-[1] pointer-events-none about-web-drop">
+      <div class="w-[1px] h-[350px] bg-gray-300 opacity-50"></div>
+      <img src="./assets/web1.png" class="w-[250px] object-contain opacity-20 web-spin-only -mt-[125px]" alt="Web">
+    </div>
+    
+    <!-- Background web right -->
+    <div class="absolute top-0 right-[0%] flex flex-col items-center z-[1] pointer-events-none about-web-drop">
+      <div class="w-[1px] h-[250px] bg-gray-300 opacity-50"></div>
+      <img src="./assets/web1.png" class="w-[300px] object-contain opacity-20 transform scale-x-[-1] web-spin-only -mt-[150px]" alt="Web">
+    </div>
+
+    <div class="about-left w-full md:w-1/2 relative z-10 flex flex-col gap-6 pt-10 px-6 md:px-0">
+      <div class="flex items-center gap-2 text-[0.85rem] font-extrabold tracking-[0.15em] text-[#B91C1C]">
+        <img src="./assets/spydy.png" class="w-6 h-6 rounded border border-red-700" alt="Icon">
+        BEHIND THE MASK
+      </div>
+      
+      <div class="flex flex-col">
+        <h1 class="text-5xl md:text-[5rem] font-black italic leading-[0.9] text-[#0F172A] uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">K V</h1>
+        <h1 class="text-5xl md:text-[5rem] font-black italic leading-[0.9] text-[#0F172A] uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">RITHICK.</h1>
+      </div>
+
+      <div class="text-gray-700 font-medium leading-relaxed max-w-lg mt-2 space-y-6 text-lg">
+        <p>
+          Android Developer with 2+ years of experience building scalable enterprise applications for Verizon Communications, specializing in Kotlin, Jetpack Compose, and API-driven UI architectures.
+        </p>
+        <p>
+          I am passionate about building modern declarative UIs and architecting robust applications. In my journey from Tech Mahindra to Geidea, I have successfully delivered high-impact mobile solutions across payment systems, eCommerce, and enterprise platforms.
+        </p>
+      </div>
+
+      <div class="mt-4">
+        <h3 class="uppercase font-bold text-gray-400 tracking-widest text-sm border-b border-gray-200 pb-2 mb-4 inline-block">PRIMARY TECH STACK</h3>
+        <div class="flex flex-wrap gap-4">
+          <span class="pill-animate bg-white text-[#B91C1C] font-bold text-base px-6 py-3 rounded-2xl border border-[#B91C1C]/30 hover:bg-[#B91C1C] hover:text-white hover:border-[#B91C1C] hover:shadow-[0_4px_15px_rgba(185,28,28,0.5)] transition-all duration-300 cursor-default" style="animation-delay: 0s;">Kotlin</span>
+          <span class="pill-animate bg-white text-[#B91C1C] font-bold text-base px-6 py-3 rounded-2xl border border-[#B91C1C]/30 hover:bg-[#B91C1C] hover:text-white hover:border-[#B91C1C] hover:shadow-[0_4px_15px_rgba(185,28,28,0.5)] transition-all duration-300 cursor-default" style="animation-delay: 0.2s;">Jetpack Compose</span>
+          <span class="pill-animate bg-white text-[#B91C1C] font-bold text-base px-6 py-3 rounded-2xl border border-[#B91C1C]/30 hover:bg-[#B91C1C] hover:text-white hover:border-[#B91C1C] hover:shadow-[0_4px_15px_rgba(185,28,28,0.5)] transition-all duration-300 cursor-default" style="animation-delay: 0.4s;">MVVM</span>
+          <span class="pill-animate bg-white text-[#B91C1C] font-bold text-base px-6 py-3 rounded-2xl border border-[#B91C1C]/30 hover:bg-[#B91C1C] hover:text-white hover:border-[#B91C1C] hover:shadow-[0_4px_15px_rgba(185,28,28,0.5)] transition-all duration-300 cursor-default" style="animation-delay: 0.6s;">Clean Architecture</span>
+          <span class="pill-animate bg-white text-[#B91C1C] font-bold text-base px-6 py-3 rounded-2xl border border-[#B91C1C]/30 hover:bg-[#B91C1C] hover:text-white hover:border-[#B91C1C] hover:shadow-[0_4px_15px_rgba(185,28,28,0.5)] transition-all duration-300 cursor-default" style="animation-delay: 0.8s;">Dagger Hilt</span>
+          <span class="pill-animate bg-white text-[#B91C1C] font-bold text-base px-6 py-3 rounded-2xl border border-[#B91C1C]/30 hover:bg-[#B91C1C] hover:text-white hover:border-[#B91C1C] hover:shadow-[0_4px_15px_rgba(185,28,28,0.5)] transition-all duration-300 cursor-default" style="animation-delay: 1.0s;">Room</span>
+          <span class="pill-animate bg-white text-[#B91C1C] font-bold text-base px-6 py-3 rounded-2xl border border-[#B91C1C]/30 hover:bg-[#B91C1C] hover:text-white hover:border-[#B91C1C] hover:shadow-[0_4px_15px_rgba(185,28,28,0.5)] transition-all duration-300 cursor-default" style="animation-delay: 1.2s;">Coroutines</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PENDULUM IMAGE (Desktop) -->
+    <div class="hidden md:flex absolute top-0 right-[22%] flex-col items-center z-10 pendulum-drop">
+      <div class="pendulum origin-top flex flex-col items-center">
+        <div class="w-[2px] h-[45vh] bg-[#B91C1C]"></div>
+        <div class="relative w-[300px] h-[300px] rounded-full border-[8px] border-[#B91C1C] overflow-hidden shadow-[0_20px_50px_rgba(185,28,28,0.2)] bg-white flex justify-center items-center">
+          <img src="./assets/mypic.png" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" alt="Profile">
+        </div>
+      </div>
+    </div>
+
+    <!-- PENDULUM IMAGE (Mobile) -->
+    <div class="md:hidden w-full flex flex-col items-center mt-12 z-10 pendulum-drop">
+      <div class="pendulum origin-top flex flex-col items-center">
+        <div class="w-[2px] h-[100px] bg-[#B91C1C]"></div>
+        <div class="relative w-[280px] h-[280px] rounded-full border-[8px] border-[#B91C1C] overflow-hidden shadow-[0_20px_50px_rgba(185,28,28,0.2)] bg-white flex justify-center items-center">
+          <img src="./assets/mypic.png" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" alt="Profile">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION -->
+  <section id="skills" class="relative min-h-screen w-full px-6 md:px-24 py-24 bg-white overflow-hidden flex flex-col items-center">
+    <img src="./assets/web1.png" class="web-bg-center" alt="Web">
+
+    <!-- Swinging Spiderman on the right -->
+    <div class="hidden lg:flex absolute top-0 right-[3%] xl:right-[5%] flex-col items-center z-30 pendulum-drop">
+      <div class="pendulum origin-top flex flex-col items-center">
+        <div class="w-[1px] h-[350px] bg-gray-400"></div>
+        <img src="./assets/spydy_hang.png" class="w-[160px] object-contain -mt-4 drop-shadow-xl" alt="Spiderman">
+      </div>
+    </div>
+    
+    <div class="text-center mb-16 relative z-10 flex flex-col items-center skills-header">
+      <h2 class="subtitle mb-2">ARSENAL & EXPERTISE</h2>
+      <h1 class="title-name text-4xl md:text-[4rem]">TECHNICAL SKILLS.</h1>
+      <div class="w-16 h-1 bg-red-700 mt-4 rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-5xl relative z-10">
+      
+      <!-- Skill Item 1 -->
+      <div class="skill-card bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 flex justify-between items-center cursor-default">
+        <div class="flex items-center gap-4">
+          <div class="skill-dot w-2.5 h-2.5 rounded-full bg-red-700"></div>
+          <div>
+            <h3 class="font-black text-lg uppercase tracking-tight">KOTLIN & JAVA</h3>
+            <p class="skill-cat text-xs font-bold text-gray-400 tracking-widest uppercase mt-0.5">ANDROID & KOTLIN</p>
+          </div>
+        </div>
+        <div class="skill-badge border border-gray-300 text-gray-500 font-bold px-4 py-1.5 rounded-full text-[0.7rem] uppercase tracking-wider">ADVANCED</div>
+      </div>
+
+      <!-- Skill Item 2 -->
+      <div class="skill-card bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 flex justify-between items-center cursor-default">
+        <div class="flex items-center gap-4">
+          <div class="skill-dot w-2.5 h-2.5 rounded-full bg-red-700"></div>
+          <div>
+            <h3 class="font-black text-lg uppercase tracking-tight">JETPACK COMPOSE</h3>
+            <p class="skill-cat text-xs font-bold text-gray-400 tracking-widest uppercase mt-0.5">ANDROID UI</p>
+          </div>
+        </div>
+        <div class="skill-badge border border-gray-300 text-gray-500 font-bold px-4 py-1.5 rounded-full text-[0.7rem] uppercase tracking-wider">ADVANCED</div>
+      </div>
+
+      <!-- Skill Item 3 -->
+      <div class="skill-card bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 flex justify-between items-center cursor-default">
+        <div class="flex items-center gap-4">
+          <div class="skill-dot w-2.5 h-2.5 rounded-full bg-red-700"></div>
+          <div>
+            <h3 class="font-black text-lg uppercase tracking-tight">MVVM / MVP</h3>
+            <p class="skill-cat text-xs font-bold text-gray-400 tracking-widest uppercase mt-0.5">ARCHITECTURE</p>
+          </div>
+        </div>
+        <div class="skill-badge border border-gray-300 text-gray-500 font-bold px-4 py-1.5 rounded-full text-[0.7rem] uppercase tracking-wider">ADVANCED</div>
+      </div>
+
+      <!-- Skill Item 4 -->
+      <div class="skill-card bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 flex justify-between items-center cursor-default">
+        <div class="flex items-center gap-4">
+          <div class="skill-dot w-2.5 h-2.5 rounded-full bg-red-700"></div>
+          <div>
+            <h3 class="font-black text-lg uppercase tracking-tight">ROOM & HILT</h3>
+            <p class="skill-cat text-xs font-bold text-gray-400 tracking-widest uppercase mt-0.5">ANDROID SDK</p>
+          </div>
+        </div>
+        <div class="skill-badge border border-gray-300 text-gray-500 font-bold px-4 py-1.5 rounded-full text-[0.7rem] uppercase tracking-wider">ADVANCED</div>
+      </div>
+
+      <!-- Skill Item 5 -->
+      <div class="skill-card bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 flex justify-between items-center cursor-default">
+        <div class="flex items-center gap-4">
+          <div class="skill-dot w-2.5 h-2.5 rounded-full bg-red-700"></div>
+          <div>
+            <h3 class="font-black text-lg uppercase tracking-tight">REACT & SPRING BOOT</h3>
+            <p class="skill-cat text-xs font-bold text-gray-400 tracking-widest uppercase mt-0.5">WEB & BACKEND</p>
+          </div>
+        </div>
+        <div class="skill-badge border border-gray-300 text-gray-500 font-bold px-4 py-1.5 rounded-full text-[0.7rem] uppercase tracking-wider">PROFICIENT</div>
+      </div>
+
+      <!-- Skill Item 6 -->
+      <div class="skill-card bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 flex justify-between items-center cursor-default">
+        <div class="flex items-center gap-4">
+          <div class="skill-dot w-2.5 h-2.5 rounded-full bg-red-700"></div>
+          <div>
+            <h3 class="font-black text-lg uppercase tracking-tight">REST APIS & JSON</h3>
+            <p class="skill-cat text-xs font-bold text-gray-400 tracking-widest uppercase mt-0.5">NETWORKING</p>
+          </div>
+        </div>
+        <div class="skill-badge border border-gray-300 text-gray-500 font-bold px-4 py-1.5 rounded-full text-[0.7rem] uppercase tracking-wider">ADVANCED</div>
+      </div>
+
+      <!-- Skill Item 7 -->
+      <div class="skill-card bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 flex justify-between items-center cursor-default">
+        <div class="flex items-center gap-4">
+          <div class="skill-dot w-2.5 h-2.5 rounded-full bg-red-700"></div>
+          <div>
+            <h3 class="font-black text-lg uppercase tracking-tight">DOCKER, AWS & NGINX</h3>
+            <p class="skill-cat text-xs font-bold text-gray-400 tracking-widest uppercase mt-0.5">TOOLS & CLOUD</p>
+          </div>
+        </div>
+        <div class="skill-badge border border-gray-300 text-gray-500 font-bold px-4 py-1.5 rounded-full text-[0.7rem] uppercase tracking-wider">PROFICIENT</div>
+      </div>
+
+      <!-- Skill Item 8 -->
+      <div class="skill-card bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 flex justify-between items-center cursor-default">
+        <div class="flex items-center gap-4">
+          <div class="skill-dot w-2.5 h-2.5 rounded-full bg-red-700"></div>
+          <div>
+            <h3 class="font-black text-lg uppercase tracking-tight">FIREBASE & CI/CD</h3>
+            <p class="skill-cat text-xs font-bold text-gray-400 tracking-widest uppercase mt-0.5">DEVOPS</p>
+          </div>
+        </div>
+        <div class="skill-badge border border-gray-300 text-gray-500 font-bold px-4 py-1.5 rounded-full text-[0.7rem] uppercase tracking-wider">PROFICIENT</div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- EXPERIENCE SECTION -->
+  <section id="experience" class="relative min-h-screen w-full px-6 md:px-24 py-24 bg-[#F8F9FA] overflow-hidden flex flex-col items-center">
+    <img src="./assets/web1.png" class="absolute top-0 right-0 w-[500px] opacity-10 pointer-events-none z-0" alt="Web">
+    
+    <div class="text-center mb-16 relative z-10 flex flex-col items-center projects-header">
+      <h2 class="subtitle mb-2">PROFESSIONAL TIMELINE</h2>
+      <h1 class="title-name text-4xl md:text-[4rem]">EXPERIENCE.</h1>
+      <div class="w-16 h-1 bg-red-700 mt-4 rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl relative z-10 pl-0 md:pl-24">
+      
+      <!-- Experience 1 -->
+      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300 md:col-span-2 xl:col-span-1">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="font-black text-xl tracking-tight group-hover:text-[#A31621] transition-colors uppercase"><span class="bg-[#4F46E5] text-white px-2 py-0.5 rounded mr-1 group-hover:bg-[#A31621] transition-colors">GEI</span>DEA</h3>
+        </div>
+        <div class="text-gray-600 font-medium text-sm leading-relaxed mb-2 flex-grow transition-colors">
+          <strong class="text-gray-900 block mb-1 text-base">Android Developer</strong>
+          <div class="text-xs font-bold text-gray-400 mb-4 group-hover:text-red-700/70 transition-colors">April 2026 - Present | Bengaluru</div>
+          <ul class="list-disc list-outside ml-4 space-y-2 group-hover:text-gray-800 transition-colors">
+            <li>Working on GeideaStore, a custom app distribution platform (similar to Google Play Store) built exclusively for PAX smart POS terminals.</li>
+            <li>Architecting the store app using Kotlin, managing complex download and installation workflows for merchants.</li>
+            <li>Handling secure API integrations, dynamic app catalog rendering, and low-level POS device interactions to ensure a seamless app management experience.</li>
+          </ul>
+        </div>
+        <div class="flex gap-2 flex-wrap mt-6">
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">KOTLIN</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">ANDROID SDK</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">PAX HARDWARE</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">APP DISTRIBUTION</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">POS INTEGRATION</span>
+        </div>
+      </div>
+
+      <!-- Experience 2 -->
+      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300 md:col-span-2 xl:col-span-1">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="font-black text-xl tracking-tight group-hover:text-[#A31621] transition-colors uppercase"><span class="bg-[#E11D48] text-white px-2 py-0.5 rounded mr-1 group-hover:bg-[#A31621] transition-colors">TECH</span> MAHINDRA</h3>
+        </div>
+        <div class="text-gray-600 font-medium text-sm leading-relaxed mb-2 flex-grow transition-colors">
+          <strong class="text-gray-900 block mb-1 text-base">Software Engineer</strong>
+          <div class="text-xs font-bold text-gray-400 mb-4 group-hover:text-red-700/70 transition-colors">Mar 2024 - Mar 2026 | Chennai</div>
+          <ul class="list-disc list-outside ml-4 space-y-2 group-hover:text-gray-800 transition-colors">
+            <li><strong>VBG Digital Mobile Apps (Verizon):</strong> Developed multiple Android modules and UI screens using MVP architecture with Kotlin, Java, XML, and Jetpack Compose.</li>
+            <li>Implemented dynamic JSON-driven UI rendering in SMB enabling backend-controlled UI updates without app releases.</li>
+            <li><strong>Firsty Android Application:</strong> Built modern declarative UI using Jetpack Compose with smooth animations and responsive layouts.</li>
+            <li>Integrated REST APIs and WebSockets to support real-time content updates, and Firebase for monitoring and push notifications.</li>
+          </ul>
+        </div>
+        <div class="flex gap-2 flex-wrap mt-6">
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">KOTLIN</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">JAVA</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">MVVM & MVP</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">COMPOSE</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">ROOM</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">HILT</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">FIREBASE</span>
+        </div>
+      </div>
+
+      <!-- Experience 3 -->
+      <div class="project-card group bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300 md:col-span-2 xl:col-span-2">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="font-black text-xl tracking-tight group-hover:text-[#A31621] transition-colors uppercase"><span class="bg-[#059669] text-white px-2 py-0.5 rounded mr-1 group-hover:bg-[#A31621] transition-colors">ATD</span>XT LLC</h3>
+        </div>
+        <div class="text-gray-600 font-medium text-sm leading-relaxed mb-2 flex-grow transition-colors">
+          <strong class="text-gray-900 block mb-1 text-base">Software Engineer - Full stack developer</strong>
+          <div class="text-xs font-bold text-gray-400 mb-4 group-hover:text-red-700/70 transition-colors">Dec 2023 - Mar 2024 | Coimbatore</div>
+          <ul class="list-disc list-outside ml-4 space-y-2 group-hover:text-gray-800 transition-colors">
+            <li>Built an Employee Management System to streamline employee record management, role-based access, and operational workflows.</li>
+            <li>Developed responsive and dynamic user interfaces using React.js.</li>
+            <li>Implemented robust backend services using Spring Boot, designing and exposing RESTful APIs.</li>
+            <li>Containerized the application using Docker and deployed it on AWS, configuring Nginx as a reverse proxy.</li>
+          </ul>
+        </div>
+        <div class="flex gap-2 flex-wrap mt-6">
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">JAVA</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">REACT.JS</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">SPRING BOOT</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">REST APIS</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">DOCKER</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">AWS</span>
+          <span class="border border-gray-200 text-gray-500 group-hover:border-red-700/30 group-hover:text-red-700 font-bold px-3 py-1 rounded text-[0.65rem] tracking-widest uppercase transition-colors">NGINX</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Standing Spider-Man Left -->
+    <img src="./assets/spydy_stand.png" class="projects-spider absolute left-[-50px] bottom-0 h-[600px] object-contain z-20 pointer-events-none" alt="Spider-Man Standing">
+  </section>
+
+  <!-- EDUCATION SECTION -->
+  <section id="education" class="relative w-full px-6 md:px-24 py-24 bg-[#F8F9FA] overflow-hidden flex flex-col items-center">
+    <div class="text-center mb-16 relative z-10 flex flex-col items-center">
+      <h2 class="text-[0.85rem] font-extrabold tracking-[0.15em] text-[#B91C1C] mb-2">ACADEMIC BACKGROUND</h2>
+      <h1 class="text-4xl md:text-[4rem] font-black italic leading-[0.9] text-[#0F172A] uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">EDUCATION.</h1>
+      <div class="w-16 h-1 bg-red-700 mt-4 rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl relative z-10">
+      <!-- Education 1 -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300">
+        <h3 class="font-black text-xl tracking-tight text-gray-900 mb-2 uppercase">Anna University Regional Campus</h3>
+        <p class="text-gray-500 font-bold text-sm mb-4">Coimbatore | 2019 - 2023</p>
+        <p class="text-[#B91C1C] font-bold text-lg mb-2">B.E - Computer Science Engineering</p>
+        <div class="bg-gray-100 text-gray-700 font-bold px-4 py-2 rounded-lg self-start text-sm mt-auto">CGPA: 8.84</div>
+      </div>
+      
+      <!-- Education 2 -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300">
+        <h3 class="font-black text-xl tracking-tight text-gray-900 mb-2 uppercase">SVGV Matric Higher Secondary School</h3>
+        <p class="text-gray-500 font-bold text-sm mb-4">Karamadai | Completed: 2019</p>
+        <p class="text-[#B91C1C] font-bold text-lg mb-2">Higher Secondary Certificate (HSC)</p>
+        <div class="bg-gray-100 text-gray-700 font-bold px-4 py-2 rounded-lg self-start text-sm mt-auto">Percentage: 89.6%</div>
+      </div>
+
+      <!-- Education 3 -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:-translate-y-1.5 hover:border-[#B91C1C] hover:shadow-[0_15px_40px_rgba(185,28,28,0.15)] transition-all duration-300">
+        <h3 class="font-black text-xl tracking-tight text-gray-900 mb-2 uppercase">Sri Giri Eswara Matriculation School</h3>
+        <p class="text-gray-500 font-bold text-sm mb-4">Kagguchi | Completed: 2017</p>
+        <p class="text-[#B91C1C] font-bold text-lg mb-2">Secondary School Leaving Certificate (SSLC)</p>
+        <div class="bg-gray-100 text-gray-700 font-bold px-4 py-2 rounded-lg self-start text-sm mt-auto">Percentage: 98%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS SECTION -->
+  <section id="certifications" class="relative w-full px-6 md:px-24 py-24 bg-white overflow-hidden flex flex-col items-center">
+    <div class="text-center mb-16 relative z-10 flex flex-col items-center">
+      <h2 class="text-[0.85rem] font-extrabold tracking-[0.15em] text-[#B91C1C] mb-2">AWARDS & RECOGNITION</h2>
+      <h1 class="text-4xl md:text-[4rem] font-black italic leading-[0.9] text-[#0F172A] uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">CERTIFICATIONS.</h1>
+      <div class="w-16 h-1 bg-red-700 mt-4 rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl relative z-10">
+      
+      <!-- Cert 1 -->
+      <div class="bg-gray-50/80 border border-gray-200 rounded-2xl p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-[#B91C1C] hover:shadow-md transition-all duration-300">
+        <div class="w-12 h-12 rounded-full bg-red-100 text-[#B91C1C] flex items-center justify-center font-black text-xl flex-shrink-0">M</div>
+        <div>
+          <h3 class="font-bold text-gray-900 leading-tight">Microsoft Certified: Azure AI Engineer Associate</h3>
+          <p class="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider text-[0.65rem]">Microsoft</p>
+        </div>
+      </div>
+
+      <!-- Cert 2 -->
+      <div class="bg-gray-50/80 border border-gray-200 rounded-2xl p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-[#B91C1C] hover:shadow-md transition-all duration-300">
+        <div class="w-12 h-12 rounded-full bg-red-100 text-[#B91C1C] flex items-center justify-center font-black text-xl flex-shrink-0">A</div>
+        <div>
+          <h3 class="font-bold text-gray-900 leading-tight">AI White Belt Certification</h3>
+          <p class="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider text-[0.65rem]">Artificial Intelligence & Prompt Engineering</p>
+        </div>
+      </div>
+
+      <!-- Cert 3 -->
+      <div class="bg-gray-50/80 border border-gray-200 rounded-2xl p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-[#B91C1C] hover:shadow-md transition-all duration-300">
+        <div class="w-12 h-12 rounded-full bg-red-100 text-[#B91C1C] flex items-center justify-center font-black text-xl flex-shrink-0">A</div>
+        <div>
+          <h3 class="font-bold text-gray-900 leading-tight">AI Blue Belt Certification</h3>
+          <p class="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider text-[0.65rem]">Advanced AI Applications & Integrations</p>
+        </div>
+      </div>
+
+      <!-- Cert 4 -->
+      <div class="bg-gray-50/80 border border-gray-200 rounded-2xl p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-[#B91C1C] hover:shadow-md transition-all duration-300">
+        <div class="w-12 h-12 rounded-full bg-red-100 text-[#B91C1C] flex items-center justify-center font-black text-xl flex-shrink-0">U</div>
+        <div>
+          <h3 class="font-bold text-gray-900 leading-tight">Android Jetpack Compose: The Comprehensive Bootcamp</h3>
+          <p class="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider text-[0.65rem]">Udemy / External</p>
+        </div>
+      </div>
+
+      <!-- Cert 5 -->
+      <div class="bg-gray-50/80 border border-gray-200 rounded-2xl p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-[#B91C1C] hover:shadow-md transition-all duration-300">
+        <div class="w-12 h-12 rounded-full bg-red-100 text-[#B91C1C] flex items-center justify-center font-black text-xl flex-shrink-0">U</div>
+        <div>
+          <h3 class="font-bold text-gray-900 leading-tight">Android App Development with Kotlin</h3>
+          <p class="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider text-[0.65rem]">Udemy / External</p>
+        </div>
+      </div>
+
+      <!-- Cert 6 -->
+      <div class="bg-gray-50/80 border border-gray-200 rounded-2xl p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-[#B91C1C] hover:shadow-md transition-all duration-300">
+        <div class="w-12 h-12 rounded-full bg-red-100 text-[#B91C1C] flex items-center justify-center font-black text-xl flex-shrink-0">W</div>
+        <div>
+          <h3 class="font-bold text-gray-900 leading-tight">Modern Java Script for React JS - ES6</h3>
+          <p class="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider text-[0.65rem]">Web Development - Udemy</p>
+        </div>
+      </div>
+
+      <!-- Cert 7 -->
+      <div class="bg-gray-50/80 border border-gray-200 rounded-2xl p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-[#B91C1C] hover:shadow-md transition-all duration-300">
+        <div class="w-12 h-12 rounded-full bg-red-100 text-[#B91C1C] flex items-center justify-center font-black text-xl flex-shrink-0">J</div>
+        <div>
+          <h3 class="font-bold text-gray-900 leading-tight">Java for Beginners</h3>
+          <p class="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider text-[0.65rem]">Programming Foundation - Udemy</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PUBLISHED APPS SECTION -->
+  <section id="apps" class="relative min-h-screen w-full px-6 md:px-24 py-24 bg-black overflow-hidden flex flex-col items-center">
+    <div class="text-center mb-16 relative z-10 flex flex-col items-center">
+      <h2 class="text-[0.85rem] font-extrabold tracking-[0.15em] text-red-500 mb-2">PLAY STORE RELEASES</h2>
+      <h1 class="text-4xl md:text-[4rem] font-black italic leading-[0.9] text-white uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">PUBLISHED APPS.</h1>
+      <div class="w-16 h-1 bg-red-700 mt-4 rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl relative z-10">
+      
+      <!-- App 1 -->
+      <div class="group bg-gradient-to-b from-[#1a1a2e] to-[#0f172a] border border-red-900/30 rounded-[2rem] p-10 flex flex-col shadow-2xl hover:-translate-y-3 hover:border-red-500 hover:shadow-[0_0_50px_-12px_rgba(220,38,38,0.4)] transition-all duration-500 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-48 h-48 bg-red-600/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-red-600/20 transition-all duration-500"></div>
+        <div class="flex items-center gap-6 mb-6">
+          <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-red-800 rounded-2xl flex items-center justify-center text-white font-bold text-3xl shadow-[0_0_30px_rgba(220,38,38,0.3)] group-hover:scale-110 transition-transform duration-500 z-10 relative">K</div>
+          <div>
+            <h3 class="font-black text-2xl tracking-tight uppercase text-white group-hover:text-red-500 transition-colors">KadaiCredit</h3>
+            <p class="text-xs font-bold text-gray-400 tracking-widest uppercase mt-1">FINANCE / LEDGER</p>
+          </div>
+        </div>
+        <p class="text-gray-400 font-medium text-[0.8rem] md:text-sm leading-relaxed mb-8 flex-grow z-10 relative">
+          Welcome to Kadai Credit – The ultimate digital ledger designed specifically for shopkeepers, small business owners, and merchants to easily manage their daily customer credit accounts! Replace your traditional paper notebook with a 100% secure, fast, and completely free digital ledger. With Kadai Credit, you can effortlessly record every credit and payment transaction with zero hassle.
+        </p>
+        <a href="https://play.google.com/store/apps/details?id=com.rithick.kadaicredit" target="_blank" rel="noopener noreferrer" class="bg-white text-[#0F172A] font-bold px-6 py-3 rounded-full text-sm uppercase tracking-wider hover:bg-red-600 hover:text-white transition-colors self-start inline-flex items-center gap-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" /></svg>
+          View on Play Store
+        </a>
+      </div>
+
+      <!-- App 2 -->
+      <div class="group bg-gradient-to-b from-[#1a1a2e] to-[#0f172a] border border-red-900/30 rounded-[2rem] p-10 flex flex-col shadow-2xl hover:-translate-y-3 hover:border-red-500 hover:shadow-[0_0_50px_-12px_rgba(220,38,38,0.4)] transition-all duration-500 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-48 h-48 bg-red-600/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-red-600/20 transition-all duration-500"></div>
+        <div class="flex items-center gap-6 mb-6">
+          <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-red-800 rounded-2xl flex items-center justify-center text-white font-bold text-3xl shadow-[0_0_30px_rgba(220,38,38,0.3)] group-hover:scale-110 transition-transform duration-500 z-10 relative">V</div>
+          <div>
+            <h3 class="font-black text-2xl tracking-tight uppercase text-white group-hover:text-red-500 transition-colors">Voice to Sign Language</h3>
+            <p class="text-xs font-bold text-gray-400 tracking-widest uppercase mt-1">EDUCATION / ACCESSIBILITY</p>
+          </div>
+        </div>
+        <p class="text-gray-400 font-medium text-[0.8rem] md:text-sm leading-relaxed mb-8 flex-grow z-10 relative">
+          An accessibility-focused Android application designed to bridge communication gaps for the deaf and mute community. This app translates your spoken voice and typed text into real-time American Sign Language (ASL) gestures.
+        </p>
+        <a href="https://play.google.com/store/apps/details?id=com.signlanguage.signlanguage" target="_blank" rel="noopener noreferrer" class="bg-white text-[#0F172A] font-bold px-6 py-3 rounded-full text-sm uppercase tracking-wider hover:bg-red-600 hover:text-white transition-colors self-start inline-flex items-center gap-2 mt-auto">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" /></svg>
+          View on Play Store
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="relative min-h-screen w-full px-6 md:px-24 py-24 bg-white overflow-hidden flex flex-col items-center justify-center">
+      <img src="./assets/web1.png" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] opacity-5 pointer-events-none z-0" alt="Web">
+      
+      <!-- Swinging Spiderman on the right (Contact) -->
+      <div class="hidden lg:flex absolute top-0 right-[2%] xl:right-[5%] flex-col items-center z-30 pendulum-drop">
+        <div class="pendulum origin-top flex flex-col items-center">
+          <div class="w-[1px] h-[20vh] xl:h-[25vh] bg-gray-400"></div>
+          <img src="./assets/spydy_hang.png" class="w-[220px] xl:w-[260px] object-contain -mt-6 drop-shadow-2xl" alt="Spiderman">
+        </div>
+      </div>
+
+      <div class="contact-header text-center mb-12 relative z-10 flex flex-col items-center">
+        <div class="flex items-center gap-2 text-[0.85rem] font-extrabold tracking-[0.15em] text-[#B91C1C] mb-2">
+          <div class="w-3 h-2 bg-red-700 rounded-sm"></div>
+          GET IN TOUCH
+        </div>
+        <h1 class="text-4xl md:text-[4rem] font-black italic leading-[0.9] text-[#0F172A] uppercase tracking-[-0.02em]" style="text-shadow: 4px 4px 0px #B91C1C;">CONTACT.</h1>
+        <div class="w-16 h-1 bg-red-700 mt-4 rounded-full"></div>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-8 w-full max-w-5xl relative z-10">
+        
+        <!-- Contact Info -->
+        <div class="flex-1 flex flex-col justify-center gap-6 bg-[#0F172A] rounded-3xl p-10 text-white shadow-xl">
+           <h2 class="font-black text-2xl">Let's Connect</h2>
+           <p class="text-gray-400 text-sm leading-relaxed mb-4">Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+           <div class="flex flex-col gap-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-gray-800/50 rounded-full flex items-center justify-center text-red-500 text-xl">📍</div>
+              <div>
+                <p class="text-[0.65rem] text-gray-400 font-bold tracking-widest uppercase mb-1">LOCATION</p>
+                <p class="font-semibold text-sm">Ooty, Tamil Nadu</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-gray-800/50 rounded-full flex items-center justify-center text-red-500 text-xl">✉️</div>
+              <div>
+                <p class="text-[0.65rem] text-gray-400 font-bold tracking-widest uppercase mb-1">EMAIL</p>
+                <a href="mailto:rithick502@gmail.com" class="font-semibold text-sm hover:text-red-400 transition-colors">rithick502@gmail.com</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-gray-800/50 rounded-full flex items-center justify-center text-red-500 text-xl">📞</div>
+              <div>
+                <p class="text-[0.65rem] text-gray-400 font-bold tracking-widest uppercase mb-1">PHONE</p>
+                <a href="tel:+919360273339" class="font-semibold text-sm hover:text-red-400 transition-colors">+91 9360273339</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-gray-800/50 rounded-full flex items-center justify-center text-red-500 text-xl">🔗</div>
+              <div>
+                <p class="text-[0.65rem] text-gray-400 font-bold tracking-widest uppercase mb-1">LINKEDIN</p>
+                <a href="https://in.linkedin.com/in/rithick-k-v-701067222" target="_blank" rel="noopener noreferrer" class="font-semibold text-sm hover:text-red-400 transition-colors">rithick-k-v</a>
+              </div>
+            </div>
+         </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form flex-[1.5] bg-white border border-gray-100 rounded-3xl p-8 md:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.05)]">
+          <form class="flex flex-col gap-6">
+            <div class="flex flex-col md:flex-row gap-6">
+              <div class="flex-1 flex flex-col gap-2">
+                <label class="text-xs font-bold text-gray-500 tracking-widest uppercase">YOUR NAME</label>
+                <input type="text" placeholder="John Doe" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 font-medium focus:outline-none focus:border-[#B91C1C] focus:ring-4 focus:ring-[#B91C1C]/10 transition-all">
+              </div>
+              <div class="flex-1 flex flex-col gap-2">
+                <label class="text-xs font-bold text-gray-500 tracking-widest uppercase">YOUR EMAIL</label>
+                <input type="email" placeholder="john@example.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 font-medium focus:outline-none focus:border-[#B91C1C] focus:ring-4 focus:ring-[#B91C1C]/10 transition-all">
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="text-xs font-bold text-gray-500 tracking-widest uppercase">MESSAGE</label>
+              <textarea rows="4" placeholder="Let's build something amazing together..." class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 font-medium resize-none focus:outline-none focus:border-[#B91C1C] focus:ring-4 focus:ring-[#B91C1C]/10 transition-all"></textarea>
+            </div>
+            <button type="button" onclick="window.location.href='mailto:rithick502@gmail.com'" class="mt-4 bg-[#B91C1C] hover:bg-[#991b1b] text-white font-extrabold text-sm px-6 py-4 rounded-xl transition-all shadow-lg shadow-red-900/20 hover:shadow-red-900/40 hover:-translate-y-1">
+              SEND MESSAGE
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const spiderImage = document.getElementById('spiderImage');
+    const personImage = document.getElementById('personImage');
+
+    // Ambient floating for profile picture
+    gsap.to('.hanging-circle', {
+      y: 15,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      const logo = document.getElementById('nav-logo');
+      const links = document.querySelectorAll('.nav-link');
+      const hamburger = document.getElementById('hamburger-btn');
+      
+      if (window.scrollY > 50) {
+        nav.classList.add('bg-black', 'shadow-xl', 'py-4');
+        nav.classList.remove('bg-transparent', 'py-6');
+        logo.classList.add('text-white');
+        logo.classList.remove('text-gray-900');
+        hamburger.classList.add('text-white');
+        hamburger.classList.remove('text-gray-900');
+        links.forEach(link => {
+          link.classList.add('text-gray-300', 'hover:text-white');
+          link.classList.remove('text-[#6B7280]', 'hover:text-[#111827]');
+        });
+      } else {
+        nav.classList.remove('bg-black', 'shadow-xl', 'py-4');
+        nav.classList.add('bg-transparent', 'py-6');
+        logo.classList.remove('text-white');
+        logo.classList.add('text-gray-900');
+        
+        // Only change hamburger back to dark if menu is NOT open
+        const menu = document.getElementById('mobile-menu');
+        if (!menu || !menu.classList.contains('open')) {
+          hamburger.classList.remove('text-white');
+          hamburger.classList.add('text-gray-900');
+        }
+        
+        links.forEach(link => {
+          link.classList.remove('text-gray-300', 'hover:text-white');
+          link.classList.add('text-[#6B7280]', 'hover:text-[#111827]');
+        });
+      }
+    });
+
+    // GSAP ANIMATIONS
+    
+    // Hero Entrance
+    gsap.from('.hero-text', { y: 20, opacity: 0, duration: 1, delay: 0.2 });
+    gsap.from('.hero-title', { y: 100, opacity: 0, duration: 1, stagger: 0.2, delay: 0.4, ease: 'power4.out' });
+    gsap.from('.hero-btns', { y: 20, opacity: 0, duration: 1, delay: 0.8 });
+    gsap.from('.hero-img', { y: 200, opacity: 0, duration: 1.5, delay: 0.5, ease: 'back.out(1.2)' });
+    
+    // GSAP ANIMATIONS FOR WEBS COMPLETELY REMOVED!
+
+    // About Section
+      ScrollTrigger.create({
+        trigger: '#about',
+        start: 'top 70%',
+        animation: gsap.timeline()
+          .from('.about-left', { x: -50, opacity: 0, duration: 1, ease: 'power3.out' })
+          .from('.about-web-drop', { y: -150, opacity: 0, duration: 1.5, stagger: 0.2, ease: 'bounce.out' }, '-=0.5')
+          .from('.pendulum-drop', { y: -300, opacity: 0, duration: 1.5, ease: 'bounce.out' }, '-=0.5')
+      });
+
+    // Skills Section
+    ScrollTrigger.create({
+      trigger: '#skills',
+      start: 'top 70%',
+      animation: gsap.timeline()
+        .from('.skills-header', { y: 30, opacity: 0, duration: 0.8 })
+        .from('.skill-card', { y: 30, opacity: 0, duration: 0.5, stagger: 0.1 }, '-=0.4')
+        .from('.skills-spider', { y: 100, opacity: 0, duration: 1, ease: 'back.out(1.7)' }, '-=0.5')
+    });
+
+    // Experience Section
+    ScrollTrigger.create({
+      trigger: '#experience',
+      start: 'top 70%',
+      animation: gsap.timeline()
+        .from('.projects-header', { y: 30, opacity: 0, duration: 0.8 })
+        .from('.project-card', { y: 30, opacity: 0, duration: 0.5, stagger: 0.1 }, '-=0.4')
+        .from('.projects-spider', { x: -100, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+    });
+
+    // Contact Section
+    ScrollTrigger.create({
+      trigger: '#contact',
+      start: 'top 70%',
+      animation: gsap.timeline()
+        .from('.contact-header', { y: 30, opacity: 0, duration: 0.8 })
+        .from('.contact-form', { scale: 0.95, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
+        .from('.contact-spider', { y: -100, opacity: 0, duration: 1, ease: 'bounce.out' }, '-=0.5')
+    });
+  </script>
+</body>
+</html>
